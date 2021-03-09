@@ -1,0 +1,12 @@
+<div class="timeframe-picker">
+  <div class="container p-d-flex">
+    <ng-container *ngFor="let button of buttonsList">
+      <button pButton
+              type="button"
+              [label]="button.label"
+              class="p-button-text p-button-sm"
+              (click)="changeTimeframe(button.label)">
+      </button>
+    </ng-container>
+  </div>
+</div>

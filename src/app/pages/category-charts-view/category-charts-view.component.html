@@ -1,0 +1,10 @@
+<div class="content-container">
+  <div class="p-grid w-100">
+    <ng-container *ngFor="let chart of chartList">
+      <div class="p-col-12 chart-container p-mt-3">
+        <h5 class="p-ml-2 p-text-uppercase p-my-2 p-text-center">{{chart}}</h5>
+        <p-chart type="line" [data]="data" [options]="chartOptions" height="250px"></p-chart>
+      </div>
+    </ng-container>
+  </div>
+</div>

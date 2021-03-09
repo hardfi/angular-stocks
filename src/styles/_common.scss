@@ -1,0 +1,31 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  font-family: sans-serif;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+app-category-charts-view {
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+  max-width: $max-content-width;
+  display: flex;
+  justify-content: center;
+}
+
+.content-container {
+  @extend .container;
+  margin-top: $menu-bar-height;
+  margin-bottom: $timeframe-picker-height;
+  padding: 20px;
+}
