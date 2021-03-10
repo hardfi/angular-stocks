@@ -1,16 +1,27 @@
-<div class="menu-bar p-d-flex p-align-center p-justify-between">
-  <div class="p-ml-3 p-d-flex p-align-center">
-    <img src="https://primefaces.org/primeng/showcase/assets/showcase/images/primeng.svg" height="40" class="p-mr-2">
-    <h3 class="p-ml-2">Stocks App</h3>
-  </div>
-  <div class="p-mr-3">
-    <ng-container *ngFor="let item of menuItems">
-      <button pButton
-              (click)="goToCategory(item.link)"
-              type="button"
-              [label]="item.label"
-              class="p-button-text p-ml-1">
-      </button>
-    </ng-container>
+<div class="menu-bar p-d-flex p-align-center p-justify-center">
+  <div class="container p-justify-between">
+    <div class="p-ml-3 p-d-flex p-align-center">
+      <img src="https://primefaces.org/primeng/showcase/assets/showcase/images/primeng.svg" height="40" class="p-mr-2">
+      <h3 class="p-ml-2">Stocks App</h3>
+    </div>
+    <div class="p-mr-3" *ngIf="!isMobile; else mobileDropDown">
+      <ng-container *ngFor="let item of menuItems">
+        <button pButton
+                (click)="goToCategory(item)"
+                type="button"
+                [label]="item"
+                class="p-button-text p-ml-1">
+        </button>
+      </ng-container>
+    </div>
   </div>
 </div>
+
+<ng-template #mobileDropDown>
+  <div>
+    <ng-container *ngIf="isLandscape">
+      Timeframe: <p-dropdown [options]="menuItems" class="p-mr-3"></p-dropdown>
+    </ng-container>
+    <p-dropdown [options]="menuItems" class="p-mr-3"></p-dropdown>
+  </div>
+</ng-template>

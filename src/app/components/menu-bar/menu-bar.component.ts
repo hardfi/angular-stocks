@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+import {MobileService} from '../../mobile.service';
+import {ApiService} from '../../api/api.service';
+import {Stock} from '../../models/stock';
 
 @Component({
   selector: 'app-menu-bar',
@@ -7,23 +10,29 @@ import {Router} from '@angular/router';
   styleUrls: ['./menu-bar.component.scss']
 })
 export class MenuBarComponent implements OnInit {
-  menuItems: any[] = [];
+  menuItems: string[] = [];
+  isMobile: boolean;
+  isLandscape: boolean;
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              private mobileService: MobileService,
+              private apiService: ApiService) {
+    this.mobileService.isMobile$.subscribe(isMobile => this.isMobile = isMobile);
+    this.mobileService.isLandscape$.subscribe(isLandscape => this.isLandscape = isLandscape);
   }
 
   ngOnInit(): void {
-    this.menuItems = [
-      {label: 'Finance', link: 'finance'},
-      {label: 'Banking', link: 'banking'},
-      {label: 'Agriculture', link: 'agriculture'},
-      {label: 'Clothing', link: 'clothing'},
-      {label: 'Technology', link: 'technology'},
-    ];
+    this.apiService.getUserStocks().then(response => {
+      Object.values(response.data).forEach(stock => {
+        if (!this.menuItems.includes(stock.sector)) {
+          this.menuItems.push(stock.sector);
+        }
+      });
+    });
   }
 
-  goToCategory(url: string): void {
-    this.router.navigate(['chart/' + url]);
+  goToCategory(sector: string): void {
+    this.router.navigate(['chart/' + sector.toLowerCase()]);
   }
 
 }
