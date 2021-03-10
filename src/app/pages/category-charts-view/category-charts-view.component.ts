@@ -1,57 +1,34 @@
-import {ChangeDetectionStrategy, Component, OnChanges} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {ApiService} from '../../api/api.service';
+import {Stock} from '../../models/stock';
 
 @Component({
   selector: 'app-category-charts-view',
   templateUrl: './category-charts-view.component.html',
-  styleUrls: ['./category-charts-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CategoryChartsViewComponent implements OnChanges {
-  chartList: any[] = [];
-  category: string;
-  chartOptions: any;
-  data: any;
+export class CategoryChartsViewComponent {
+  chartList: Stock[] = [];
+  sector: string;
 
-  constructor(private route: ActivatedRoute) {
-    this.chartList = [
-      'one', 'two', 'three', 'four', 'five', 'six'
-    ];
-    this.data = {
-      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-      datasets: [
-        {
-          label: 'First Dataset',
-          data: [65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56],
-          fill: false,
-          borderColor: '#42A5F5'
-        },
-      ]
-    };
-
-    this.chartOptions = {
-      legend: false,
-      scales: {
-        xAxes: [{
-          ticks: {
-            fontColor: '#495057'
-          }
-        }],
-        yAxes: [{
-          ticks: {
-            fontColor: '#495057'
-          }
-        }]
+  constructor(private route: ActivatedRoute, private apiService: ApiService, private changeDetector: ChangeDetectorRef) {
+    this.route.params.subscribe(params => {
+      const sector = params.sector;
+      if (sector !== this.sector) {
+        this.sector = sector;
+        this.getUserStocks();
       }
-    };
-
+    });
   }
 
-  ngOnChanges(): void {
-    const category = this.route.snapshot.paramMap.get('category');
-    if (category !== this.category) {
-      this.category = category;
-    }
+  getUserStocks(): void {
+    this.apiService.getUserStocks()
+      .then(response => {
+        this.chartList = Object.values(response.data).filter(stock => stock.sector.toLowerCase() === this.sector);
+        this.changeDetector.detectChanges();
+      })
+      .catch(err => console.warn(err));
   }
 
 }

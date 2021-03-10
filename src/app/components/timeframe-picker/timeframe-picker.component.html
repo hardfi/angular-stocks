@@ -1,11 +1,12 @@
-<div class="timeframe-picker" *ngIf="showBar">
+<div class="timeframe-picker p-d-flex p-justify-center" *ngIf="showBar">
   <div class="container p-justify-center">
     <ng-container *ngFor="let button of buttonsList">
       <button pButton
               type="button"
-              [label]="button.label"
+              [label]="button"
               class="p-button-text p-button-sm"
-              (click)="changeTimeframe(button.label)">
+              [ngClass]="isMobile ? 'sx' : ''"
+              (click)="changeTimeframe(button)">
       </button>
     </ng-container>
   </div>

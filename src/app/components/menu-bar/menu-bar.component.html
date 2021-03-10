@@ -1,8 +1,8 @@
 <div class="menu-bar p-d-flex p-align-center p-justify-center">
   <div class="container p-justify-between">
     <div class="p-ml-3 p-d-flex p-align-center">
-      <img src="https://primefaces.org/primeng/showcase/assets/showcase/images/primeng.svg" height="40" class="p-mr-2">
-      <h3 class="p-ml-2">Stocks App</h3>
+      <img src="https://primefaces.org/primereact/showcase/showcase/images/logo.png" height="40" class="p-mr-2">
+      <h3 class="p-ml-2">My Stocks</h3>
     </div>
     <div class="p-mr-3" *ngIf="!isMobile; else mobileDropDown">
       <ng-container *ngFor="let item of menuItems">
@@ -10,7 +10,7 @@
                 (click)="goToCategory(item)"
                 type="button"
                 [label]="item"
-                class="p-button-text p-ml-1">
+                class="p-button-text p-ml-1 p-text-uppercase">
         </button>
       </ng-container>
     </div>
@@ -19,9 +19,9 @@
 
 <ng-template #mobileDropDown>
   <div>
-    <ng-container *ngIf="isLandscape">
-      Timeframe: <p-dropdown [options]="menuItems" class="p-mr-3"></p-dropdown>
-    </ng-container>
     <p-dropdown [options]="menuItems" class="p-mr-3"></p-dropdown>
+    <ng-container *ngIf="isLandscape">
+      <p-dropdown [options]="menuItems" class="p-mr-3"></p-dropdown>
+    </ng-container>
   </div>
 </ng-template>

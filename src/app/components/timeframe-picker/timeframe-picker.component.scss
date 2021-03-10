@@ -14,4 +14,9 @@
     align-items: center;
     height: 100%;
   }
+
+  .p-button-text.p-button-sm.sx {
+    min-width: 40px;
+    padding: 1rem 0.4rem;
+  }
 }

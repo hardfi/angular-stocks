@@ -1,5 +1,5 @@
-import {HostListener, Injectable, OnDestroy} from '@angular/core';
-import { DeviceDetectorService } from 'ngx-device-detector';
+import {Injectable, OnDestroy} from '@angular/core';
+import {DeviceDetectorService} from 'ngx-device-detector';
 import {BehaviorSubject} from 'rxjs';
 
 @Injectable({

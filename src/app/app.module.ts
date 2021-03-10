@@ -6,20 +6,23 @@ import {AppComponent} from './app.component';
 import {MenuBarComponent} from './components/menu-bar/menu-bar.component';
 import {CategoryChartsViewComponent} from './pages/category-charts-view/category-charts-view.component';
 import {TimeframePickerComponent} from './components/timeframe-picker/timeframe-picker.component';
-import {MobileService} from './mobile.service';
+import {MobileService} from './services/mobile.service';
 
 import {ButtonModule} from 'primeng/button';
 import {ChartModule} from 'primeng/chart';
 import {DropdownModule} from 'primeng/dropdown';
 import {SharedModule} from 'primeng/api';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ChartComponent} from './components/chart/chart.component';
+import {StateService} from './services/state.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuBarComponent,
     CategoryChartsViewComponent,
-    TimeframePickerComponent
+    TimeframePickerComponent,
+    ChartComponent
   ],
   imports: [
     ChartModule,
@@ -30,7 +33,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     DropdownModule,
     BrowserAnimationsModule
   ],
-  providers: [MobileService],
+  providers: [MobileService, StateService],
   bootstrap: [AppComponent]
 })
 
