@@ -1,16 +1,17 @@
 <div class="menu-bar p-d-flex p-align-center p-justify-center">
   <div class="container p-justify-between">
     <div class="p-ml-3 p-d-flex p-align-center">
-      <img src="https://primefaces.org/primereact/showcase/showcase/images/logo.png" height="40" class="p-mr-2">
+      <img class="p-mr-2" height="40" src="https://primefaces.org/primereact/showcase/showcase/images/logo.png">
       <h3 class="p-ml-2">My Stocks</h3>
     </div>
-    <div class="p-mr-3" *ngIf="!isMobile; else mobileDropDown">
+    <div *ngIf="!isMobile; else mobileDropDown" class="p-mr-3">
       <ng-container *ngFor="let item of menuItems">
-        <button pButton
-                (click)="goToCategory(item)"
-                type="button"
-                [label]="item"
-                class="p-button-text p-ml-1 p-text-uppercase">
+        <button (click)="goToCategory(item.value)"
+                [label]="item.label"
+                [ngClass]="{'selected': selectedSector === item.value}"
+                class="p-button-text p-ml-1 p-text-uppercase"
+                pButton
+                type="button">
         </button>
       </ng-container>
     </div>
@@ -18,10 +19,18 @@
 </div>
 
 <ng-template #mobileDropDown>
-  <div>
-    <p-dropdown [options]="menuItems" class="p-mr-3"></p-dropdown>
+  <div *ngIf="menuItems.length">
+    <p-dropdown (onChange)="goToCategory($event.value)"
+                [(ngModel)]="selectedSector"
+                [options]="menuItems"
+                class="p-mr-3">
+    </p-dropdown>
     <ng-container *ngIf="isLandscape">
-      <p-dropdown [options]="menuItems" class="p-mr-3"></p-dropdown>
+      <p-dropdown (onChange)="changeTimeframe($event.value)"
+                  [(ngModel)]="selectedTimeframe"
+                  [options]="timeframes"
+                  class="p-mr-3">
+      </p-dropdown>
     </ng-container>
   </div>
 </ng-template>

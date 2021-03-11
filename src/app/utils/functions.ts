@@ -1,34 +1,34 @@
-import {format, sub} from 'date-fns';
-import {Timeframe} from '../models/timeframe';
+import { getUnixTime, sub } from 'date-fns';
+import { Timeframe } from '../models/timeframe';
 
-export const getStartingDate = (timeframe: Timeframe): string => {
+export const getStartingDate = (timeframe: Timeframe): number => {
   const today = new Date();
   let date;
   switch (timeframe) {
     case Timeframe.ALL:
-      date = sub(today, {years: 10});
+      date = sub(today, { years: 10 });
       break;
     case Timeframe['1Y']:
-      date = sub(today, {years: 1});
+      date = sub(today, { years: 1 });
       break;
     case Timeframe['6M']:
-      date = sub(today, {months: 6});
+      date = sub(today, { months: 6 });
       break;
     case Timeframe['3M']:
-      date = sub(today, {months: 3});
+      date = sub(today, { months: 3 });
       break;
     case Timeframe['1M']:
-      date = sub(today, {months: 1});
+      date = sub(today, { months: 1 });
       break;
     case Timeframe['2W']:
-      date = sub(today, {weeks: 2});
+      date = sub(today, { weeks: 2 });
       break;
     case Timeframe['1W']:
-      date = sub(today, {weeks: 1});
+      date = sub(today, { weeks: 1 });
       break;
     default:
-      date = sub(today, {days: 3});
+      date = sub(today, { days: 4 });
       break;
   }
-  return format(date, 'P');
+  return getUnixTime(date);
 };

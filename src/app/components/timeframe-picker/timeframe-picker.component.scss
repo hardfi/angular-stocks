@@ -15,8 +15,15 @@
     height: 100%;
   }
 
-  .p-button-text.p-button-sm.sx {
-    min-width: 40px;
-    padding: 1rem 0.4rem;
+  .p-button-text.p-button-sm {
+    &.xs {
+      min-width: 40px;
+      padding: 1rem 0.4rem;
+    }
+
+    &.selected {
+      border: 2px solid $color-grey-dark;
+      background-color: $color-grey-dark;
+    }
   }
 }

@@ -1,4 +1,4 @@
 export interface Spot {
-  date: string;
+  date: number;
   spot: number;
 }

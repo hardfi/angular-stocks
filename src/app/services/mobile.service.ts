@@ -1,9 +1,9 @@
-import {Injectable, OnDestroy} from '@angular/core';
-import {DeviceDetectorService} from 'ngx-device-detector';
-import {BehaviorSubject} from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MobileService implements OnDestroy {
   isMobile$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);

@@ -1,20 +1,22 @@
-import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 
-import {AppRoutingModule} from './app-routing.module';
-import {AppComponent} from './app.component';
-import {MenuBarComponent} from './components/menu-bar/menu-bar.component';
-import {CategoryChartsViewComponent} from './pages/category-charts-view/category-charts-view.component';
-import {TimeframePickerComponent} from './components/timeframe-picker/timeframe-picker.component';
-import {MobileService} from './services/mobile.service';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { MenuBarComponent } from './components/menu-bar/menu-bar.component';
+import { CategoryChartsViewComponent } from './pages/category-charts-view/category-charts-view.component';
+import { TimeframePickerComponent } from './components/timeframe-picker/timeframe-picker.component';
+import { MobileService } from './services/mobile.service';
 
-import {ButtonModule} from 'primeng/button';
-import {ChartModule} from 'primeng/chart';
-import {DropdownModule} from 'primeng/dropdown';
-import {SharedModule} from 'primeng/api';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {ChartComponent} from './components/chart/chart.component';
-import {StateService} from './services/state.service';
+import { ButtonModule } from 'primeng/button';
+import { ChartModule } from 'primeng/chart';
+import { DropdownModule } from 'primeng/dropdown';
+import { SharedModule } from 'primeng/api';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ChartComponent } from './components/chart/chart.component';
+import { StateService } from './services/state.service';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,8 @@ import {StateService} from './services/state.service';
     MenuBarComponent,
     CategoryChartsViewComponent,
     TimeframePickerComponent,
-    ChartComponent
+    ChartComponent,
+    SpinnerComponent,
   ],
   imports: [
     ChartModule,
@@ -31,11 +34,10 @@ import {StateService} from './services/state.service';
     ButtonModule,
     SharedModule,
     DropdownModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule,
   ],
   providers: [MobileService, StateService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-
-export class AppModule {
-}
+export class AppModule {}

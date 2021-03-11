@@ -1,4 +1,8 @@
-<div class="p-col-12 chart-container p-mt-3" *ngIf="data">
+<div class="p-col-12 chart-container p-mt-3">
   <h5 class="p-ml-2 p-text-uppercase p-my-2 p-text-center">{{chartName}}</h5>
-  <p-chart type="line" [data]="data" [options]="chartOptions" height="250px"></p-chart>
+  <p-chart *ngIf="data; else spinner" [data]="data" [options]="chartOptions" height="250px" type="line"></p-chart>
 </div>
+
+<ng-template #spinner>
+  <app-spinner></app-spinner>
+</ng-template>
