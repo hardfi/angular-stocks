@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { MobileService } from '../../services/mobile.service';
+import { DeviceService } from '../../services/device.service';
 import { Subject } from 'rxjs';
 import { Timeframe } from '../../models/timeframe';
 import { takeUntil } from 'rxjs/operators';
@@ -18,7 +18,7 @@ export class TimeframePickerComponent implements OnDestroy {
 
   onDestroy$: Subject<void> = new Subject<void>();
 
-  constructor(private mobileService: MobileService, private stateService: StateService) {
+  constructor(private mobileService: DeviceService, private stateService: StateService) {
     this.mobileService.isMobileLandscape$.pipe(takeUntil(this.onDestroy$)).subscribe((val) => (this.showBar = !val));
     this.mobileService.isMobile$.pipe(takeUntil(this.onDestroy$)).subscribe((val) => (this.isMobile = val));
     this.stateService.selectedTimeframe$

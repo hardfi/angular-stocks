@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MobileService } from '../../services/mobile.service';
-import { ApiService } from '../../api/api.service';
+import { DeviceService } from '../../services/device.service';
+import { StocksService } from '../../api/stocks.service';
 import { StateService } from '../../services/state.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Timeframe } from '../../models/timeframe';
-import { SelectItem } from 'primeng/api';
+import { MessageService, SelectItem } from 'primeng/api';
 
 @Component({
   selector: 'app-menu-bar',
@@ -25,9 +25,10 @@ export class MenuBarComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private mobileService: MobileService,
-    private apiService: ApiService,
-    private stateService: StateService
+    private mobileService: DeviceService,
+    private apiService: StocksService,
+    private stateService: StateService,
+    private toast: MessageService
   ) {
     this.mobileService.isMobile$.pipe(takeUntil(this.onDestroy$)).subscribe((isMobile) => (this.isMobile = isMobile));
     this.mobileService.isLandscape$
@@ -57,7 +58,7 @@ export class MenuBarComponent implements OnInit, OnDestroy {
         });
         this.goToCategory(this.menuItems[0].value);
       })
-      .catch((err) => console.warn(err));
+      .catch(() => this.toast.add({ severity: 'error', detail: 'Cannot download stocks list.', summary: 'Error' }));
   }
 
   goToCategory(sector?: string): void {

@@ -1,19 +1,9 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnChanges,
-  OnDestroy,
-  SimpleChanges,
-} from '@angular/core';
-import { ApiService } from '../../api/api.service';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ChartData } from '../../models/chart';
-import { StateService } from '../../services/state.service';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 import { Timeframe } from '../../models/timeframe';
 import { format, fromUnixTime } from 'date-fns';
+import { SpotsService } from '../../api/spots.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-chart',
@@ -21,26 +11,17 @@ import { format, fromUnixTime } from 'date-fns';
   styleUrls: ['./chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChartComponent implements OnChanges, OnDestroy {
+export class ChartComponent implements OnChanges {
   @Input() chartName: string;
+  @Input() timeframe: Timeframe;
   chartOptions: any;
   data: ChartData;
-  selectedTimeframe: Timeframe;
-
-  onDestroy$: Subject<void> = new Subject<void>();
 
   constructor(
-    private apiService: ApiService,
+    private spotsService: SpotsService,
     private changeDetector: ChangeDetectorRef,
-    private stateService: StateService
+    private toast: MessageService
   ) {
-    this.stateService.selectedTimeframe$.pipe(takeUntil(this.onDestroy$)).subscribe((timeframe) => {
-      this.selectedTimeframe = timeframe;
-      if (this.chartName) {
-        this.getChartData();
-      }
-    });
-
     this.chartOptions = {
       legend: false,
       scales: {
@@ -63,37 +44,35 @@ export class ChartComponent implements OnChanges, OnDestroy {
   }
 
   ngOnChanges(simpleChanges: SimpleChanges): void {
-    if (simpleChanges.chartName?.currentValue) {
+    if (this.chartName) {
       this.getChartData();
     }
   }
 
   getChartData(): void {
-    this.apiService.getSpots(this.chartName, this.selectedTimeframe).then((response) => {
-      const data = response.data;
-      this.data = Object.values(data).reduce(
-        (result, spot) => {
-          result.labels.push(format(fromUnixTime(spot.date), 'P'));
-          result.datasets[0].data.push(spot.spot);
-          return result;
-        },
-        {
-          labels: [],
-          datasets: [
-            {
-              data: [],
-              fill: false,
-              borderColor: '#42A5F5',
-            },
-          ],
-        }
-      );
-      this.changeDetector.detectChanges();
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
+    this.spotsService
+      .getSpots(this.chartName, this.timeframe)
+      .then((response) => {
+        const data = response.data;
+        this.data = Object.values(data).reduce(
+          (result, spot) => {
+            result.labels.push(format(fromUnixTime(spot.date), 'P'));
+            result.datasets[0].data.push(spot.spot);
+            return result;
+          },
+          {
+            labels: [],
+            datasets: [
+              {
+                data: [],
+                fill: false,
+                borderColor: '#42A5F5',
+              },
+            ],
+          }
+        );
+        this.changeDetector.detectChanges();
+      })
+      .catch(() => this.toast.add({ severity: 'error', summary: 'Error', detail: 'Cannot download stocks list.' }));
   }
 }
